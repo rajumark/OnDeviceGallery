@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:provider/provider.dart';
 import '../models/image_model.dart';
+import '../viewmodels/gallery_viewmodel.dart';
+import '../services/database_helper.dart';
+import 'dart:io';
 
 class FullScreenImageScreen extends StatelessWidget {
   final ImageModel image;
@@ -16,6 +20,14 @@ class FullScreenImageScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Image Details'),
         backgroundColor: Theme.of(context).colorScheme.primary,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.camera_enhance),
+            onPressed: () {
+              _processWithGoogleLens(context);
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -51,6 +63,51 @@ class FullScreenImageScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _processWithGoogleLens(BuildContext context) async {
+    final file = File(image.path);
+    if (!file.existsSync()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Image file not found')),
+      );
+      return;
+    }
+
+    try {
+      final inputImage = InputImage.fromFilePath(file.path);
+      final textRecognizer = TextRecognizer();
+      try {
+        final RecognizedText recognizedText = await textRecognizer.processImage(inputImage);
+        final extractedText = recognizedText.text;
+        
+        if (extractedText.isNotEmpty) {
+          final updatedImage = image.copyWith(ocrText: extractedText);
+          
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Text extracted successfully')),
+          );
+          
+          // Save OCR text back to database
+          final dbHelper = DatabaseHelper.instance;
+          await dbHelper.updateImage(updatedImage);
+          
+          // Refresh the images in the view model
+          final viewModel = Provider.of<GalleryViewModel>(context, listen: false);
+          await viewModel.refreshImages();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('No text found in image')),
+          );
+        }
+      } finally {
+        await textRecognizer.close();
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error extracting text: \${e.toString()}')),
+      );
+    }
   }
 
   Widget _buildDetailRow(String label, String value) {

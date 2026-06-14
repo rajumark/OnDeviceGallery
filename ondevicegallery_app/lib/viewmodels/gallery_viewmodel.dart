@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:image_picker/image_picker.dart';
 import '../models/image_model.dart';
 import '../services/database_helper.dart';
 import '../services/permission_service.dart';
@@ -131,6 +132,41 @@ class GalleryViewModel extends ChangeNotifier {
     final images = await _dbHelper.getAllImages();
     _images = images;
     notifyListeners();
+  }
+
+  Future<void> refreshImages() async {
+    await _loadImages();
+  }
+
+  Future<void> captureImageFromCamera(BuildContext context) async {
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(
+        source: ImageSource.camera,
+        preferredCameraDevice: CameraDevice.front,
+      );
+
+      if (pickedFile != null) {
+        final imagePath = pickedFile.path;
+        final newImage = ImageModel(
+          id: imagePath.hashCode.toString(),
+          path: imagePath,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          status: ImageStatus.pending,
+        );
+
+        await _dbHelper.insertImage(newImage);
+        await _loadImages();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Image captured successfully')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error capturing image: \${e.toString()}')),
+      );
+    }
   }
 
   void toggleSelectionMode() {

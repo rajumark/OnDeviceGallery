@@ -57,6 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.camera_alt, color: Colors.white),
+            onPressed: () {
+              viewModel.captureImageFromCamera(context);
+            },
+          ),
           PopupMenuButton<int>(
             onSelected: (value) {
               setState(() {
