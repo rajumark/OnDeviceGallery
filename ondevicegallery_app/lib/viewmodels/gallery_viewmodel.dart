@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 import '../models/image_model.dart';
 import '../services/database_helper.dart';
 import '../services/permission_service.dart';
@@ -185,15 +186,6 @@ class GalleryViewModel extends ChangeNotifier {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Text copied to clipboard')),
     );
-  }
-
-  void copySelectedTextToImage(BuildContext context) {
-    if (_selectedImages.isEmpty) return;
-
-    _textSelectionController.text = _selectedImages
-        .map((img) => img.ocrText)
-        .where((t) => t.isNotEmpty)
-        .join('\n\n');
   }
 
   Future<void> processPendingImages() async {

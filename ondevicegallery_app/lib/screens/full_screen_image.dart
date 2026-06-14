@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import '../models/image_model.dart';
 
 class FullScreenImageScreen extends StatelessWidget {
@@ -24,9 +25,14 @@ class FullScreenImageScreen extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 color: Colors.grey.shade300,
-                child: const Center(
-                  child: Icon(Icons.photo, size: 100, color: Colors.grey),
-                ),
+                child: image.path.isNotEmpty
+                    ? Image.file(
+                        File(image.path),
+                        fit: BoxFit.contain,
+                      )
+                    : const Center(
+                        child: Icon(Icons.photo, size: 100, color: Colors.grey),
+                      ),
               ),
             ),
             Container(

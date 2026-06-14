@@ -1,0 +1,63 @@
+name: Build and Release APK
+
+on:
+  push:
+    branches: [ main ]
+    # Check commit message for #go to trigger this workflow
+    if: contains(github.event.commits.*.message, '#go')
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+        
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.11.5'
+          
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          
+      - name: Build APK for real devices only
+        run: |
+          cd ondevicegallery_app
+          flutter build apk --release --no-simulator
+          
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.0
+          name: Release v1.0.0
+          body: |
+            ## Release Notes for v1.0.0
+            
+            - Build for real Android devices only (emulator builds skipped)
+            - Single app variant for optimal performance
+            - Release build for production use
+            
+            ### Files included:
+            - ondevicegallery_app/build/app/outputs/flutter-apk/app-release.apk
+            
+            ### Build Details:
+            - Version: 1.0.0
+            - Built for: Real Android devices only
+            - Build type: Release (performance optimized)
+            - App variant: Single variant
+          files: |
+            ondevicegallery_app/build/app/outputs/flutter-apk/app-release.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
