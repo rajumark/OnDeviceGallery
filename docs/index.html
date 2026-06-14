@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnDeviceGallery - Modern Photo Gallery App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .material-elevation-1 {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
+        
+        .material-elevation-2 {
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        }
+        
+        .material-elevation-3 {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        }
+        
+        .slide-text {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .slide-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .mobile-mockup {
+            background: #000;
+            border-radius: 40px;
+            padding: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            transform: rotate(2deg);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-mockup:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+        
+        .mobile-screen {
+            background: #fff;
+            border-radius: 20px;
+            padding: 10px;
+            aspect-ratio: 9/16;
+        }
+        
+        .color-primary {
+            color: #6200ee;
+        }
+        
+        .bg-primary {
+            background-color: #6200ee;
+        }
+        
+        .text-primary {
+            color: #6200ee;
+        }
+        
+        .hover-bg-primary:hover {
+            background-color: #3700b3;
+        }
+        
+        .btn {
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background-color: #6200ee;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3700b3;
+            box-shadow: 0 4px 8px rgba(98, 0, 238, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            background-color: rgba(98, 0, 238, 0.1);
+            color: #6200ee;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 32px 0;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white material-elevation-1 fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold color-primary">OnDeviceGallery</span>
+                </div>
+                <div>
+                    <a href="#" class="btn btn-primary">Download</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="pt-20 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Hero Section -->
+            <div class="text-center py-20">
+                <h1 class="text-5xl md:text-6xl font-bold mb-4 color-primary">OnDeviceGallery</h1>
+                <p class="text-xl text-gray-600 mb-8">Search in photos by text</p>
+                <div class="feature-grid max-w-4xl mx-auto">
+                    <div class="badge">Open source</div>
+                    <div class="badge">100% Free</div>
+                    <div class="badge">100% Offline</div>
+                    <div class="badge">100% Privacy</div>
+                    <div class="badge">100% On Device</div>
+                    <div class="badge">Super fast search</div>
+                    <div class="badge">No Ads</div>
+                    <div class="badge">No Internet Permission</div>
+                    <div class="badge">0 Blots feature</div>
+                </div>
+                <div class="mt-8">
+                    <a href="#" class="btn btn-primary animate-pulse">Get Started</a>
+                </div>
+            </div>
+            
+            <!-- Screenshots Section -->
+            <div class="py-16">
+                <h2 class="text-3xl font-bold text-center mb-12 color-primary">Experience the Beauty</h2>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                    
+                    <div class="flex flex-col items-center">
+                        <div class="mobile-mockup">
+                            <div class="mobile-screen">
+                                <div class="h-full flex items-center justify-center bg-gray-100">
+                                    <span class="text-gray-400">Screenshot 1</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-bold mt-4 color-primary">Search by text</h3>
+                    </div>
+                    
+                    <div class="flex flex-col items-center">
+                        <div class="mobile-mockup">
+                            <div class="mobile-screen">
+                                <div class="h-full flex items-center justify-center bg-gray-100">
+                                    <span class="text-gray-400">Screenshot 2</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-bold mt-4 color-primary">Suggestions</h3>
+                    </div>
+                    
+                    <div class="flex flex-col items-center">
+                        <div class="mobile-mockup">
+                            <div class="mobile-screen">
+                                <div class="h-full flex items-center justify-center bg-gray-100">
+                                    <span class="text-gray-400">Screenshot 3</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-bold mt-4 color-primary">Copy text</h3>
+                    </div>
+                    
+                    <div class="flex flex-col items-center">
+                        <div class="mobile-mockup">
+                            <div class="mobile-screen">
+                                <div class="h-full flex items-center justify-center bg-gray-100">
+                                    <span class="text-gray-400">Screenshot 4</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-bold mt-4 color-primary">Explore photos</h3>
+                    </div>
+                    
+                    <div class="flex flex-col items-center">
+                        <div class="mobile-mockup">
+                            <div class="mobile-screen">
+                                <div class="h-full flex items-center justify-center bg-gray-100">
+                                    <span class="text-gray-400">Screenshot 5</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-bold mt-4 color-primary">Organize gallery</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Developer Note Section -->
+            <div class="py-16 bg-white rounded-2xl material-elevation-2 px-8 md:px-16">
+                <h2 class="text-2xl font-bold mb-6 color-primary">A Note From The Developer</h2>
+                <div class="prose max-w-none">
+                    <p class="text-gray-700 leading-relaxed">
+                        Created to solve the problem of my life - struggling to find specific photos quickly without internet access or compromising my privacy. 
+                        This app was designed to put the power back in your hands, keeping everything 100% on your device.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mt-4">
+                        I built OnDeviceGallery to make photo management effortless and completely private. 
+                        By making it open source and free, I hope others can benefit from this solution and even improve it. 
+                        Feel free to contribute, report issues, or make it even better for everyone. 
+                        Together, we're creating a better, more privacy-focused way to manage our digital memories.
+                    </p>
+                </div>
+                <div class="mt-8">
+                    <a href="#" class="btn btn-primary">Download Now</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        const texts = [
+            'Open source',
+            '100% Free',
+            '100% Offline',
+            '100% Privacy',
+            '100% On Device',
+            'Super fast search',
+            'No Ads',
+            'No Internet Permission',
+            '0 Blots feature'
+        ];
+        
+        let currentIndex = 0;
+        const badgeContainer = document.querySelector('.feature-grid');
+        
+        function updateText() {
+            // Remove existing badges
+            badgeContainer.innerHTML = '';
+            
+            // Add all current badges
+            texts.forEach((text, index) => {
+                const badge = document.createElement('div');
+                badge.className = 'badge';
+                badge.textContent = text;
+                badge.classList.add('slide-text');
+                badge.style.transitionDelay = `${index * 50}ms`;
+                badgeContainer.appendChild(badge);
+            });
+            
+            // Animate badges
+            const badges = document.querySelectorAll('.badge');
+            badges.forEach(badge => {
+                badge.classList.remove('active');
+            });
+            
+            setTimeout(() => {
+                badges.forEach(badge => {
+                    badge.classList.add('active');
+                });
+            }, 50);
+            
+            currentIndex = (currentIndex + 1) % texts.length;
+        }
+        
+        // Update text every 3 seconds
+        setInterval(updateText, 3000);
+        
+        // Initial update
+        updateText();
+    </script>
+</body>
+</html>

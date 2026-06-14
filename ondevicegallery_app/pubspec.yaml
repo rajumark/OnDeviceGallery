@@ -1,0 +1,24 @@
+name: ondevicegallery_app
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # Key features required for the project
+  provider: ^6.0.5
+  permission_handler: ^11.3.0
+  sqflite: ^2.3.3
+  path_provider: ^2.1.5
+  google_ml_kit: ^0.20.0
+  share_plus: ^9.0.0
+
+flutter:
+  uses-material-design: true
